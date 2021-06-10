@@ -1,7 +1,7 @@
 import argparse as ap
 from pathlib import Path
 
-from seenovideo.backbone import *
+from src.backbone import *
 
 arg = ap.ArgumentParser()
 arg.add_argument("-d", help="direct text or not", required=False, action="store_true")

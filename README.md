@@ -4,6 +4,11 @@
 - Created in python + ffmpeg backend
 - Please do read this document for syntax and capbilites
 
+# Installation
+- pip install seenovideos
+- [PYPI](https://pypi.org/project/seenovideos/)
+- Grab all the required programs from the list [Requirements]
+
 ## Features so far
 - Simple text based syntax : just write down what you want
 - Works for audio/video (Same syntax. Just change filenames)

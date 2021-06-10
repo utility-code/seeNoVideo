@@ -5,12 +5,12 @@ with open("README.md", "r") as fh:
 
 
 setuptools.setup(
-    name="seenovideo",
-    version="1",
-    scripts=["seenovideo.py"],
+    name="seenovideos",
+    version="1.2.2",
     author="Subhaditya Mukherjee",
     author_email="msubhaditya@gmail.com",
     description="Video editing in a text file",
+    license="GPLv3+",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/SubhadityaMukherjee/seeNoVideo",
