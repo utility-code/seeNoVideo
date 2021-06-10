@@ -18,3 +18,4 @@ tags
 *.mp4
 *.mkv
 !movDemo.txt
+*.mp3

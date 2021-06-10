@@ -1,12 +1,25 @@
+Metadata-Version: 2.1
+Name: seenovideo
+Version: 1
+Summary: Video editing in a text file
+Home-page: https://github.com/SubhadityaMukherjee/seeNoVideo
+Author: Subhaditya Mukherjee
+Author-email: msubhaditya@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+
 # SeeNoVideo
 
 - A text based basic video editing program
 - Created in python + ffmpeg backend
-- Please do read this document for syntax and capbilites
 
 ## Features so far
 - Simple text based syntax : just write down what you want
-- Works for audio/video (Same syntax. Just change filenames)
+- Works for audio/video
 - Video stabilization
 - Add audio
 - Merge videos with individual settings
@@ -26,8 +39,6 @@ Here, commands.txt has the string required.
 ```sh
 python -m seenovideo -f testVideos/ -d -t "{name:venus.mp4,A:0,}+{name:grassTutorialNew.mp4,A:0,resize:128;128,}"
 ```
-- To specify an output file name if youre merging videos add -o "filename.mp4"
-
 ## Supported options
 - example syntax: 
 {
@@ -43,7 +54,6 @@ resize: 128;128,
 ```py
 {name:file1.mp4}+{name:grassTutorialNew.mp4}
 ```
-        - Note that each of these videos can have their own arguments
 
 ## Demos
 - Do check the demo.ipynb notebook
@@ -62,7 +72,4 @@ resize: 128;128,
 - Why.
         - This is for basic video editing. Why bother getting a UI and everything when you can just write it in a text file and be done with it?
 
-## Contribution Guidelines
-- Can I contribute? YES
-- What do I need to do? First file an issue with a suggestion. Fork it. Code. Drop a PR
-- Suggestions? File a PR
+

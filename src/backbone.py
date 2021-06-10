@@ -1,6 +1,7 @@
 import re
 import subprocess
 from pathlib import Path
+from shutil import copyfile
 
 from tqdm import tqdm
 
@@ -55,30 +56,34 @@ def preprocess_merges(x):
     return compose(x, [space_remover, nl_remover, between_curlies])
 
 
-def exec_ffmpeg_com(vid_path, tmp_path, comm):
+def exec_ffmpeg_com(vid_path, tmp_path, comm, noop=False):
     part_tmp_path = Path(tmp_path.with_name("temp_" + tmp_path.name))
-    try:
-        if not Path.exists(tmp_path):
-            gi = subprocess.getoutput(
-                f"yes|ffmpeg -i {str(vid_path)} {comm} {str(tmp_path)}"
-            )
-            print(gi)
-            vid_path = tmp_path
-            return tmp_path
-
-        else:
-
-            subprocess.getoutput(
-                f"yes|ffmpeg -i {str(tmp_path)} {comm} {str(part_tmp_path)}"
-            )
-            #         Path.unlink(tmp_path)
-            try:
-                Path.rename(part_tmp_path, tmp_path)
-            except FileNotFoundError:
-                pass
-            return tmp_path
-    except:
+    if noop == True:
+        copyfile(vid_path, tmp_path)
         return tmp_path
+    else:
+        try:
+            if not Path.exists(tmp_path):
+                gi = subprocess.getoutput(
+                    f"yes|ffmpeg -i {str(vid_path)} {comm} {str(tmp_path)}"
+                )
+                print(gi)
+                vid_path = tmp_path
+                return tmp_path
+
+            else:
+
+                subprocess.getoutput(
+                    f"yes|ffmpeg -i {str(tmp_path)} {comm} {str(part_tmp_path)}"
+                )
+                #         Path.unlink(tmp_path)
+                try:
+                    Path.rename(part_tmp_path, tmp_path)
+                except FileNotFoundError:
+                    pass
+                return tmp_path
+        except:
+            return tmp_path
 
 
 def vidstab(
@@ -115,6 +120,8 @@ def remove_audio(
                 tmp_path,
                 f"-i {str(tv)} -c:v copy -map 0:v:0 -map 1:a:0 -shortest",
             )
+    else:
+        ex = tmp_path
     try:
         if int(val) == 0:
             ex = exec_ffmpeg_com(vid_path, tmp_path, "-c copy -an")
@@ -166,6 +173,11 @@ def speed_video(val, vid_path, tmp_path):
     return ex
 
 
+def namer(val, vid_path, tmp_path):
+    ex = exec_ffmpeg_com(vid_path, tmp_path, f"", noop=True)
+    return ex
+
+
 def speed_audio(val, vid_path, tmp_path):
     val = float(val)
     if val >= 2.0:
@@ -199,6 +211,7 @@ dic_procs = {
     "speedA": speed_audio,
     "speedV": speed_video,
     "stabilize": vidstab,
+    "name": namer,
 }
 
 
@@ -208,11 +221,12 @@ def process_video(dic, fpath):
     tmp_path = fpath / f"tmp_{name}"
 
     for key in dic.keys():
-        if key != "name":
-            print(f"Executing: {dic_procs[key]}")
-            out = dic_procs[key](dic[key], vid_path, tmp_path)
-    #             print(out)
-    #             vid_path = str(out)
+        print(f"Executing: {dic_procs[key]}")
+        out = dic_procs[key](dic[key], vid_path, tmp_path)
+
+        #  if key != "name":
+        #      print(f"Executing: {dic_procs[key]}")
+        #      out = dic_procs[key](dic[key], vid_path, tmp_path)
     return tmp_path
 
 
@@ -221,7 +235,7 @@ def run_process(string, fpath, merge_name="final_output.mp4"):
     try:
         pm = preprocess_merges(string)
     except IndexError:
-        pass
+        pm = None
     executed_vid_list = []
     # run process for all files
     for i, vid in tqdm(enumerate(pi), total=len(pi)):
