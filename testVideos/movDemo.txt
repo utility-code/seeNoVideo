@@ -1,0 +1,2 @@
+{name:movie.mp4,trim:00-01-00;00-5-10,A:song.mp3}
+

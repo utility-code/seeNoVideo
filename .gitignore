@@ -17,4 +17,4 @@ tags
 *.txt
 *.mp4
 *.mkv
-
+!movDemo.txt
